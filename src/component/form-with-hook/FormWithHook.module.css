@@ -11,7 +11,7 @@
     input, select, textarea {
         background-color: #F3F3F3;
         border-radius: 4px;
-        border: 1px solid #1C1C1E;
+        border: 1px solid rgb(140, 140, 140);
         color: black;
         font-size: 15px;
         min-height: 35px;
@@ -48,10 +48,21 @@
 
 .submitButton {
     background-color: green;
-    border-radius: 5px;
-    border: 1px solid #1C1C1E;
+    border-radius: 7.5px;
+    border: 1px solid green;
     color: white;
     cursor: pointer;
+    font-weight: 500;
+    padding-block: 0.25%;
+    padding-inline: 2%;
+}
+
+.disabledButton {
+    background-color: gray;
+    border-radius: 7.5px;
+    border: 1px solid gray;
+    color: white;
+    cursor: none;
     font-weight: 500;
     padding-block: 0.25%;
     padding-inline: 2%;

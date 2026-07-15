@@ -1,0 +1,17 @@
+.content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonsContent {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0.25rem;
+    width: 100%;
+
+    Button {
+        margin-inline: 0.2rem;
+    }
+}
