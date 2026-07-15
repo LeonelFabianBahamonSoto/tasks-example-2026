@@ -4,7 +4,7 @@ import { ItemCounter, ItemCounterHandle } from "./ItemCounter"
 import styles from "./ItemCounterFather.module.css";
 
 
-export const ItemCounterFather = () => {
+const ItemCounterFather = () => {
     const counterRef = useRef<ItemCounterHandle>(null);
 
     return (
@@ -31,3 +31,5 @@ export const ItemCounterFather = () => {
         </div>
     )
 }
+
+export default ItemCounterFather;

@@ -1,11 +1,20 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import Button from "@mui/material/Button";
+import Icon from '@mui/material/Icon';
+
 import style from "./FormWithHook.module.css";
 
 type MyForm = {
     nombre: string;
     apellidos: string;
-    edad: number;
+    edad: number | unknown;
     ciudad: string;
     observaciones: string;
 }
@@ -21,25 +30,119 @@ const citiesList: City[] = [
     {id: 3, city: "Otro"}
 ];
 
-export const FormWithHook = () => {
+const FormWithHook = () => {
+    const navigate = useNavigate();
+
+    const formRules = z.object({
+        nombre: z
+            .string()
+            .min(1, "El campo es obligatorio")
+            .min(3, "Mínimo 3 caracteres")
+            .max(20, "Máximo 20 caracteres"),
+
+        apellidos: z
+            .string()
+            .min(1, "El campo es obligatorio")
+            .min(3, "Mínimo 3 caracteres")
+            .max(20, "Máximo 20 caracteres"),
+
+        edad: z.coerce
+            .number()
+            .min(1, "El campo es obligatorio")
+            .min(1, "La edad mínima es 1")
+            .max(100, "La edad máxima es 100"),
+
+        ciudad: z
+            .string()
+            .min(1, "El campo es obligatorio")
+            .min(1, "La ciudad es obligatoria"),
+
+        observaciones: z
+            .string()
+    })
+    .superRefine((data, ctx) => {
+        if (data.ciudad !== "1") {
+            if (data.observaciones.trim().length === 0) {
+                ctx.addIssue({
+                    code: "custom",
+                    path: ["observaciones"],
+                    message: "El campo es obligatorio",
+                });
+            } else if (data.observaciones.trim().length < 3) {
+                ctx.addIssue({
+                    code: "custom",
+                    path: ["observaciones"],
+                    message: "Mínimo 3 caracteres",
+                });
+            } else if (data.observaciones.length > 50) {
+                ctx.addIssue({
+                    code: "custom",
+                    path: ["observaciones"],
+                    message: "Máximo 50 caracteres",
+                });
+            }
+        }
+    });
+
     const {
         register,
         handleSubmit,
         watch,
-        formState: { errors },
+        setValue,
+        formState: { errors, isSubmitting, isValid, isDirty },
     } = useForm<MyForm>({
-        mode: "onChange",
+        mode: "all",
+        resolver: zodResolver(formRules),
+        defaultValues: {
+            nombre: "",
+            apellidos: "",
+            edad: undefined,
+            ciudad: "",
+            observaciones: "",
+        },
     });
 
+    const ciudadSeleccionada = watch('ciudad');
+
+    useEffect(() => {
+        if(ciudadSeleccionada === '1') {
+            setValue("observaciones", "", {
+                shouldValidate: true,
+                shouldDirty: true,
+            });
+        }
+    }, [ ciudadSeleccionada ])
+
     const mySubmit: SubmitHandler<MyForm> = (data): void => {
-        console.log(data)
+        console.info('isDirty: ', isDirty);
+        console.log('Formulario: ', data);
     }
 
     return (
         <div className="p-2">
-            <div className="text-[black] p-4 w-full text-center">
-                Hola Tailwind
+            <div
+                style={{
+                    alignItems: "center",
+                    display: "flex",
+                }}
+            >
+                <div style={{ flex: 1 }}>
+                    <Button
+                        variant="outlined"
+                        startIcon={<Icon>arrow_back_ios</Icon>}
+                        onClick={() => { navigate("/home") }}
+                    >
+                        Volver
+                    </Button>
+                </div>
+
+                <div style={{ flex: 1, textAlign: "center", fontWeight: "bold" }}>
+                    Formulario ngForm
+                </div>
+
+                <div style={{ flex: 1 }}></div>
             </div>
+
 
             <form
                 onSubmit={handleSubmit(mySubmit)}
@@ -56,38 +159,18 @@ export const FormWithHook = () => {
                     <div className={`${style.inputContent} col-span-1`}>
                         <span className={style.labelTitle}>Nombre</span>
                         <input
-                            {...register("nombre", {
-                                required: "El nombre es obligatorio",
-                                minLength: {
-                                    value: 3,
-                                    message: "Mínimo 3 caracteres"
-                                },
-                                maxLength: {
-                                    value: 20,
-                                    message: "Máximo 20 caracteres"
-                                }
-                            })}
+                            {...register("nombre")}
                             placeholder="Ingrese los nombres"
                         />
 
-                        {errors.nombre && <span className={style.errorForm}>{errors.nombre.message}</span>}
+                        { errors.nombre && <span className={style.errorForm}>{errors.nombre.message}</span> }
                     </div>
 
                     {/* Apellido */}
                     <div className={`${style.inputContent} col-span-1`}>
                         <span className={style.labelTitle}>Apellidos</span>
                         <input
-                            {...register("apellidos", {
-                                required: "El apellido es obligatorio",
-                                minLength: {
-                                    value: 3,
-                                    message: "Mínimo 3 caracteres"
-                                },
-                                maxLength: {
-                                    value: 20,
-                                    message: "Máximo 20 caracteres"
-                                }
-                            })}
+                            {...register("apellidos")}
                         />
 
                         {errors.apellidos && <span className={style.errorForm}>{errors.apellidos.message}</span>}
@@ -97,18 +180,7 @@ export const FormWithHook = () => {
                     <div className={`${style.inputContent} col-span-1`}>
                         <span className={style.labelTitle}>Edad</span>
                         <input
-                            {...register("edad", {
-                                valueAsNumber: true,
-                                required: "La edad es obligatoria",
-                                min: {
-                                    value: 1,
-                                    message: "Mínimo 1"
-                                },
-                                max: {
-                                    value: 100,
-                                    message: "Máximo 100"
-                                }
-                            })}
+                            {...register("edad")}
                             type="number"
                         />
 
@@ -119,17 +191,8 @@ export const FormWithHook = () => {
                     <div className={`${style.inputContent} col-span-1 md:col-span-2`}>
                         <span className={style.labelTitle}>Observaciones</span>
                         <textarea
-                            {...register("observaciones", {
-                                required: "El observaciones es obligatorio",
-                                minLength: {
-                                    value: 3,
-                                    message: "Mínimo 3 caracteres"
-                                },
-                                maxLength: {
-                                    value: 50,
-                                    message: "Máximo 50 caracteres"
-                                }
-                            })}
+                            {...register("observaciones")}
+                            disabled={ (ciudadSeleccionada === '1') ? true : false }
                         >
                         </textarea>
 
@@ -140,9 +203,7 @@ export const FormWithHook = () => {
                     <div className={`${style.inputContent} col-span-1`}>
                         <span className={style.labelTitle}>Ciudad</span>
                         <select
-                            {...register("ciudad", {
-                                required: "La ciudad es obligatoria",
-                            })}
+                            {...register("ciudad")}
                         >
                             <option value="">Seleccione una ciudad</option>
 
@@ -161,8 +222,9 @@ export const FormWithHook = () => {
                     className="flex align-center justify-center p-4 w-full"
                 >
                     <button
-                        className={style.submitButton}
+                        className={`${isSubmitting || !isValid ? style.disabledButton : style.submitButton}`}
                         type="submit"
+                        disabled={ isSubmitting || !isValid }
                     >
                         Guardar
                     </button>
@@ -172,3 +234,5 @@ export const FormWithHook = () => {
         </div>
     )
 }
+
+export default FormWithHook;
