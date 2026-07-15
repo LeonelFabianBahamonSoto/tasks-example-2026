@@ -1,0 +1,58 @@
+.labelTitle {
+    color: #1C1C1E;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.inputContent {
+    display: flex;
+    flex-direction: column;
+
+    input, select, textarea {
+        background-color: #F3F3F3;
+        border-radius: 4px;
+        border: 1px solid #1C1C1E;
+        color: black;
+        font-size: 15px;
+        min-height: 35px;
+        padding-inline: 0.35rem;
+    }
+}
+
+.inputCheckBoxContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    span {
+        color: black;
+        font-size: 1rem;
+        margin-right: 0.25rem;
+    }
+
+    input {
+        background-color: #F3F3F3;
+        border-radius: 4px;
+        border: 1px solid #1C1C1E;
+        color: black;
+        font-size: 15px;
+        padding-inline: 0.35rem;
+    }
+}
+
+.errorForm {
+    color: rgb(199, 12, 12);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.submitButton {
+    background-color: green;
+    border-radius: 5px;
+    border: 1px solid #1C1C1E;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    padding-block: 0.25%;
+    padding-inline: 2%;
+}
