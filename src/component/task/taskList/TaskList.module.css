@@ -1,0 +1,18 @@
+.content {
+    display: flex;
+    justify-content: center;
+}
+
+.listContent {
+    width: 60%;
+
+    @media (max-width: 720px) {
+        width: 100%;
+    }
+}
+
+.listItem {
+    background-color: #F3F3F3;
+    border-radius: 2px;
+    border: 0.1px solid rgb(230, 230, 230);
+}

@@ -60,6 +60,7 @@ const FormikForm = () => {
         },
         validate,
         onSubmit: values => {
+            console.info('values: ', values);
             alert(JSON.stringify(values, null, 2));
         },
     });

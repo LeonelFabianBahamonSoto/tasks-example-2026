@@ -1,0 +1,54 @@
+.content {
+    align-items: flex-end;
+    display: flex;
+    gap: 0.25rem;
+    justify-content: center;
+    padding: 1rem;
+
+    @media (max-width: 720px) {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+.inputCheckBoxContent {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        color: gray;
+        font-size: 0.7rem;
+        margin-right: 0.25rem;
+        font-weight: 600;
+    }
+
+    input {
+        background-color: #F3F3F3;
+        border-radius: 4px;
+        color: black;
+        padding-inline: 0.35rem;
+    }
+
+    @media (max-width: 720px) {
+        width: 100%;
+    }
+
+    @media (min-width: 721px) {
+        width: 50%;
+    }
+}
+
+.errorForm {
+    color: rgb(199, 12, 12);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.buttonContent {
+    @media (max-width: 720px) {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+        width: 100%;
+    }
+}
