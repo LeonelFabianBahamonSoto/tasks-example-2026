@@ -1,6 +1,5 @@
 import Button from '@mui/material/Button';
 
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import style from "./Home.module.css";
@@ -18,12 +17,10 @@ const Home = () => {
         { id: 1, buttonName: "Tasks",   navigateRoute: "/task" },
         { id: 2, buttonName: "Counter", navigateRoute: "/counter" },
         { id: 3, buttonName: "UseForm", navigateRoute: "/useForm" },
+        { id: 3, buttonName: "Formik", navigateRoute: "/formik" },
     ];
 
-    const [currentOption, setOption] = useState<null | number>(null);
-
     const changeOption = (homeOption: HomeButton): void => {
-        setOption(homeOption.id);
         navigate(`${homeOption.navigateRoute}`);
     }
 
