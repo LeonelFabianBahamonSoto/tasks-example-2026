@@ -6,6 +6,7 @@ const Home = lazy(() => import('./component/home/Home'));
 const TaskMain = lazy(() => import('./component/task/taskMain/TaskMain'));
 const ItemCounterFather = lazy(() => import('./component/counter/ItemCounterFather'));
 const FormWithHook = lazy(() => import('./component/form-with-hook/FormWithHook'));
+const FormikForm = lazy(() => import('./component/formik/FormikForm'));
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/task"    element={<TaskMain />} />
           <Route path="/counter" element={<ItemCounterFather />} />
           <Route path="/useForm" element={<FormWithHook />} />
+          <Route path="/formik"  element={<FormikForm />} />
 
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
