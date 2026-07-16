@@ -1,8 +1,21 @@
-import React from 'react'
+import { TaskProvider } from "../TaskProvider";
+
+import style from "./TaskMain.module.css";
+
+import { TaskInputName } from "../taskInputName/TaskInputName";
+import { TaskList } from "../taskList/TaskList";
 
 const TaskMain = () => {
   return (
-    <div>TaskMain</div>
+    <TaskProvider>
+      <div className={style.content}>
+        <div>TaskMain</div>
+
+        <TaskInputName />
+
+        <TaskList />
+      </div>
+    </TaskProvider>
   )
 }
 
